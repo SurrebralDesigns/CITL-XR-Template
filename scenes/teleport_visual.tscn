@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://xhpmo3mdnn7n"]
+
+[ext_resource type="Texture2D" uid="uid://coj0cxtrudn72" path="res://materials/textures/TeleportLine.png" id="1_l33uw"]
+
+[sub_resource type="Curve3D" id="Curve3D_p3b1e"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1, 0, 0, 0, 0, 0, 0, 0.26654926, -0.017656356, -0.9688066),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[node name="TeleportVisual" type="Node3D"]
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_p3b1e")
+
+[node name="TeleportLine" type="Sprite3D" parent="Path3D"]
+transform = Transform3D(-4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0, 1, 0, 0, 0)
+pixel_size = 0.001
+billboard = 2
+double_sided = false
+texture = ExtResource("1_l33uw")

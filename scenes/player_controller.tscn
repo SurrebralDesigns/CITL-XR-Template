@@ -1,0 +1,147 @@
+[gd_scene format=3 uid="uid://cgak526j58vnq"]
+
+[ext_resource type="Script" uid="uid://bwe55po0wq5bk" path="res://scripts/player_controller.gd" id="1_lvefo"]
+[ext_resource type="Shape3D" uid="uid://dicf5eltcyas0" path="res://assets/player_capsule.tres" id="2_6nbh1"]
+[ext_resource type="Script" uid="uid://bhyx6je5jsutb" path="res://scripts/startup.gd" id="2_f0yg5"]
+[ext_resource type="Script" uid="uid://c02b2qjfggo54" path="res://scripts/gravity_scale.gd" id="5_halkx"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f0yg5"]
+transparency = 1
+cull_mode = 2
+depth_draw_mode = 2
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0, 0, 0, 0)
+
+[sub_resource type="SphereMesh" id="SphereMesh_va7e3"]
+radius = 10.0
+height = 20.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_va7e3"]
+radius = 0.25
+
+[sub_resource type="SphereMesh" id="SphereMesh_lvefo"]
+radius = 0.125
+height = 0.25
+
+[sub_resource type="TorusMesh" id="TorusMesh_f0yg5"]
+inner_radius = 0.05
+outer_radius = 0.1
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_yv3m6"]
+radius = 0.125
+height = 0.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_f0yg5"]
+top_radius = 0.01
+bottom_radius = 0.05
+height = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_f0yg5"]
+radius = 0.1
+
+[sub_resource type="SphereMesh" id="SphereMesh_halkx"]
+radius = 0.1
+height = 0.1
+
+[node name="PlayerController" type="CharacterBody3D" groups=["PlayerController"]]
+collision_layer = 64
+collision_mask = 10
+script = ExtResource("1_lvefo")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6535604, 0)
+cull_mask = 1048573
+
+[node name="DistanceFade" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D"]
+material_override = SubResource("StandardMaterial3D_f0yg5")
+mesh = SubResource("SphereMesh_va7e3")
+
+[node name="HeadCollisionDetection" type="Area3D" parent="XROrigin3D/XRCamera3D"]
+collision_layer = 128
+collision_mask = 14
+
+[node name="HeadCollisionShape" type="CollisionShape3D" parent="XROrigin3D/XRCamera3D/HeadCollisionDetection"]
+shape = SubResource("SphereShape3D_va7e3")
+
+[node name="HeadMesh" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D"]
+cast_shadow = 3
+mesh = SubResource("SphereMesh_lvefo")
+skeleton = NodePath("")
+
+[node name="HeadMeshSpectator" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D/HeadMesh"]
+layers = 2
+cast_shadow = 0
+mesh = SubResource("SphereMesh_lvefo")
+skeleton = NodePath("")
+
+[node name="OriginMesh" type="MeshInstance3D" parent="XROrigin3D"]
+layers = 2
+cast_shadow = 0
+mesh = SubResource("TorusMesh_f0yg5")
+
+[node name="XRControllerLeft" type="XRController3D" parent="XROrigin3D" groups=["LeftController"]]
+tracker = &"left_hand"
+pose = &"grip"
+
+[node name="XRControllerRight" type="XRController3D" parent="XROrigin3D" groups=["RightController"]]
+tracker = &"right_hand"
+pose = &"grip"
+
+[node name="Body" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = ExtResource("2_6nbh1")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="Body"]
+cast_shadow = 3
+mesh = SubResource("CapsuleMesh_yv3m6")
+
+[node name="ForwardDirection" type="MeshInstance3D" parent="Body/BodyMesh"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0.0054867268, -0.16712488)
+layers = 2
+mesh = SubResource("CylinderMesh_f0yg5")
+
+[node name="BodyMeshSpectator" type="MeshInstance3D" parent="Body/BodyMesh"]
+layers = 2
+cast_shadow = 0
+mesh = SubResource("CapsuleMesh_yv3m6")
+skeleton = NodePath("../..")
+
+[node name="Pelvis" type="Node3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2500202, 0)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Body/Pelvis"]
+remote_path = NodePath("../../../ShapeCast3D")
+update_rotation = false
+
+[node name="Neck" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49967632, 0)
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.0205975e-05, 0)
+shape = SubResource("SphereShape3D_f0yg5")
+collision_mask = 2
+
+[node name="Startup" type="Node" parent="."]
+script = ExtResource("2_f0yg5")
+
+[node name="GravityScale" type="Node" parent="." node_paths=PackedStringArray("xr_origin_3d")]
+script = ExtResource("5_halkx")
+xr_origin_3d = NodePath("../XROrigin3D")
+
+[node name="ButtonTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="Feet" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_halkx")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+collision_mask = 14
+hit_back_faces = false
+
+[connection signal="body_entered" from="XROrigin3D/XRCamera3D/HeadCollisionDetection" to="." method="_on_head_collision_detection_body_entered"]
+[connection signal="body_exited" from="XROrigin3D/XRCamera3D/HeadCollisionDetection" to="." method="_on_head_collision_detection_body_exited"]

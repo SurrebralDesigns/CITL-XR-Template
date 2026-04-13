@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://c21m1x0kvylky"]
+
+[ext_resource type="Material" uid="uid://b2cl8s3mp46o" path="res://materials/prototype_materials/mat.tres" id="1_lwhw2"]
+[ext_resource type="PackedScene" uid="uid://b46bwo02bmexr" path="res://scenes/xr_player.tscn" id="2_vgodr"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vgodr"]
+size = Vector2(10, 10)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_o5ra8"]
+data = PackedVector3Array(5, 0, 5, -5, 0, 5, 5, 0, -5, -5, 0, 5, -5, 0, -5, 5, 0, -5)
+
+[sub_resource type="Environment" id="Environment_c3r1c"]
+
+[node name="Blank" type="Node3D"]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+material_override = ExtResource("1_lwhw2")
+mesh = SubResource("PlaneMesh_vgodr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_o5ra8")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_c3r1c")
+
+[node name="XRPlayer" parent="." instance=ExtResource("2_vgodr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8716463, 0)
+
+[node name="XRCamera3D" parent="XRPlayer/XROrigin3D" index="0"]
+current = true
+
+[node name="HoverSuspension" parent="XRPlayer" index="2"]
+debug_shape_custom_color = Color(0.14901961, 0.7019608, 0.9490196, 0.7176471)
+
+[node name="SmoothLocomotion" parent="XRPlayer" index="3"]
+movement_speed = 3.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, 0.99999994, 0, -0.99999994, -4.3711385e-08, 0, 5, 0)
+
+[editable path="XRPlayer"]

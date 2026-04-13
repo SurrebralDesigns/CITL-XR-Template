@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://b26cg7b4wwet5"]
+
+[ext_resource type="PackedScene" uid="uid://buaj7kfnk8ruf" path="res://scenes/main_scene.tscn" id="1_vlrf8"]
+[ext_resource type="Script" uid="uid://cdf0nkx4r7rgw" path="res://scripts/spectator_cam.gd" id="2_fh32k"]
+
+[node name="SPECTATOR" type="Control" unique_id=1704770368]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="XR VIEW" type="SubViewport" parent="." unique_id=2052141078]
+
+[node name="MAIN SCENE" parent="XR VIEW" unique_id=1801045037 instance=ExtResource("1_vlrf8")]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=1781676113 node_paths=PackedStringArray("subject", "xr_origin_3d")]
+transform = Transform3D(1, 0, 0, 0, 0.9367456, 0.3500112, 0, -0.3500112, 0.9367456, 2.553863, 3.564094, 3.7524614)
+script = ExtResource("2_fh32k")
+subject = NodePath("../XR VIEW/MAIN SCENE/XRPlayer")
+offset_height = 2.0
+offset_depth = 1.0
+xr_origin_3d = NodePath("../XR VIEW/MAIN SCENE/XRPlayer/XROrigin3D")
+
+[editable path="XR VIEW/MAIN SCENE"]
+[editable path="XR VIEW/MAIN SCENE/XRPlayer"]
+[editable path="XR VIEW/MAIN SCENE/OBJECTS/TeeterTotter"]

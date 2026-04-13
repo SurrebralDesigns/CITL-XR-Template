@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://dk8g1d7t70h7x"]
+
+[ext_resource type="Script" uid="uid://b6stmgsul3lbp" path="res://scripts/input_test.gd" id="1_0gdbi"]
+
+[node name="InputTest" type="Node3D" unique_id=571638312]
+script = ExtResource("1_0gdbi")
+
+[node name="Titles" type="Node3D" parent="." unique_id=1890084891]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+
+[node name="Left Controller" type="Label3D" parent="Titles" unique_id=1206003941]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
+pixel_size = 0.001
+text = "LEFT CONTROLLER"
+outline_size = 5
+uppercase = true
+
+[node name="Right Controller" type="Label3D" parent="Titles" unique_id=2081919608]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0)
+pixel_size = 0.001
+text = "RIGHT CONTROLLER"
+outline_size = 5
+uppercase = true
+
+[node name="Floats" type="Node3D" parent="." unique_id=460431243]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+
+[node name="Label3DLeft" type="Label3D" parent="Floats" unique_id=416369289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
+pixel_size = 0.001
+modulate = Color(0.99999994, 0.13889584, 0.48936582, 1)
+text = "test"
+outline_size = 5
+uppercase = true
+
+[node name="Label3DRight" type="Label3D" parent="Floats" unique_id=572906674]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0)
+pixel_size = 0.001
+modulate = Color(0.99999994, 0.13889584, 0.48936582, 1)
+text = "test"
+outline_size = 5
+uppercase = true
+
+[node name="Buttons" type="Node3D" parent="." unique_id=1653203003]
+
+[node name="Label3DLeft" type="Label3D" parent="Buttons" unique_id=1120174689]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
+pixel_size = 0.001
+modulate = Color(9.1448425e-07, 0.6171838, 0.1711668, 1)
+text = "test"
+outline_size = 5
+uppercase = true
+
+[node name="Label3DRight" type="Label3D" parent="Buttons" unique_id=1508280343]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0)
+pixel_size = 0.001
+modulate = Color(9.1448425e-07, 0.6171838, 0.1711668, 1)
+text = "test"
+outline_size = 5
+uppercase = true
+
+[node name="Vectors" type="Node3D" parent="." unique_id=1496524388]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
+
+[node name="Label3DLeft" type="Label3D" parent="Vectors" unique_id=743298146]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
+pixel_size = 0.001
+modulate = Color(0.23854938, 0.39134285, 1, 1)
+text = "test"
+outline_size = 5
+uppercase = true
+
+[node name="Label3DRight" type="Label3D" parent="Vectors" unique_id=2131967785]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0)
+pixel_size = 0.001
+modulate = Color(0.23854938, 0.39134285, 1, 1)
+text = "test"
+outline_size = 5
+uppercase = true

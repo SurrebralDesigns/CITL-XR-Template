@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://3lm02uq2u0th"]
+
+[ext_resource type="Script" uid="uid://bivnwgxdrxoe1" path="res://scripts/grabbable.gd" id="1_agfe5"]
+[ext_resource type="Material" uid="uid://ckjj1d3qg3ebv" path="res://materials/prototype_materials/Prototype_Dynamic.tres" id="2_1hssm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1hssm"]
+size = Vector3(0.05, 1, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0algd"]
+lightmap_size_hint = Vector2i(5, 16)
+add_uv2 = true
+size = Vector3(0.05, 1, 0.05)
+
+[node name="Stick" type="RigidBody3D" unique_id=1407930703 node_paths=PackedStringArray("snap_position")]
+collision_layer = 4
+collision_mask = 78
+can_sleep = false
+contact_monitor = true
+script = ExtResource("1_agfe5")
+simulated_mass = 1.0
+snap_position = NodePath("SnapPosition")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=592255233]
+shape = SubResource("BoxShape3D_1hssm")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1697102910]
+material_override = ExtResource("2_1hssm")
+gi_mode = 2
+mesh = SubResource("BoxMesh_0algd")
+
+[node name="SnapPosition" type="Node3D" parent="." unique_id=1082658120]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, -0.5, 0, 0.5, 0.8660254, 0, -0.3766691, 0)

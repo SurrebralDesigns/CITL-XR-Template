@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://bjr51v5wynfve"]
+
+[ext_resource type="Script" uid="uid://c1mbsmpvihrpv" path="res://scripts/hand_physics.gd" id="1_ounwg"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_yw0qj"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_8gr7n"]
+size = Vector3(0.1, 0.1, 0.1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_0nyjr"]
+radius = 0.05
+height = 0.5
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ndn6s"]
+radius = 0.05
+height = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_yt1a2"]
+radius = 0.05
+height = 0.1
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sl4r1"]
+radius = 0.05
+
+[node name="Arm Test" type="Node3D" unique_id=1434955397]
+
+[node name="HandPhysics" type="RigidBody3D" parent="." unique_id=1753926583]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
+script = ExtResource("1_ounwg")
+metadata/_custom_type_script = "uid://c1mbsmpvihrpv"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HandPhysics" unique_id=1425591331]
+mesh = SubResource("BoxMesh_yw0qj")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HandPhysics" unique_id=99956054]
+shape = SubResource("BoxShape3D_8gr7n")
+
+[node name="Upper Arm" type="RigidBody3D" parent="." unique_id=967265011]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Upper Arm" unique_id=1959054940]
+mesh = SubResource("CapsuleMesh_0nyjr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Upper Arm" unique_id=1939923173]
+shape = SubResource("CapsuleShape3D_ndn6s")
+
+[node name="ConeTwistJoint3D2" type="ConeTwistJoint3D" parent="Upper Arm" unique_id=2070379321]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+node_a = NodePath("..")
+node_b = NodePath("../../Lower Arm")
+
+[node name="Lower Arm" type="RigidBody3D" parent="." unique_id=772049105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Lower Arm" unique_id=972839315]
+mesh = SubResource("CapsuleMesh_0nyjr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Lower Arm" unique_id=1342634140]
+shape = SubResource("CapsuleShape3D_ndn6s")
+
+[node name="Generic6DOFJoint3D" type="Generic6DOFJoint3D" parent="Lower Arm" unique_id=107010290]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+node_a = NodePath("..")
+node_b = NodePath("../../HandPhysics")
+angular_limit_x/upper_angle = 1.0471976
+angular_limit_x/lower_angle = -1.0471976
+angular_limit_y/upper_angle = 1.0471976
+angular_limit_y/lower_angle = -1.0471976
+angular_limit_z/upper_angle = 1.0471976
+angular_limit_z/lower_angle = -1.0471976
+
+[node name="AnimatableBody3D" type="AnimatableBody3D" parent="." unique_id=849628357]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="AnimatableBody3D" unique_id=2098723817]
+mesh = SubResource("SphereMesh_yt1a2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="AnimatableBody3D" unique_id=1919765948]
+shape = SubResource("SphereShape3D_sl4r1")
+
+[node name="ConeTwistJoint3D" type="ConeTwistJoint3D" parent="AnimatableBody3D" unique_id=1509161320]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.050000012, 0)
+node_a = NodePath("..")
+node_b = NodePath("../../Upper Arm")

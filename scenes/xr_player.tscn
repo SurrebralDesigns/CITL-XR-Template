@@ -1,0 +1,160 @@
+[gd_scene format=3 uid="uid://b46bwo02bmexr"]
+
+[ext_resource type="Script" uid="uid://bfbgf5hrqd0xb" path="res://scripts/xr_player.gd" id="1_cibq4"]
+[ext_resource type="Script" uid="uid://bbmi4ucpki7h0" path="res://scripts/hover_suspension.gd" id="2_b6jm1"]
+[ext_resource type="Script" uid="uid://cgdw3q8njnxp7" path="res://scripts/smooth_locomotion.gd" id="3_b6jm1"]
+[ext_resource type="Script" uid="uid://cdsa7a1peskyo" path="res://scripts/roomscale_movement.gd" id="4_5petv"]
+[ext_resource type="Script" uid="uid://b87he78fngj3s" path="res://scripts/roomscale_crouch.gd" id="5_4irtq"]
+[ext_resource type="Script" uid="uid://b8355dsb8i1a4" path="res://scripts/smooth_rotation.gd" id="6_wrvet"]
+[ext_resource type="Script" uid="uid://b8f3ue5d7b6cy" path="res://scripts/virtual_jump.gd" id="7_mvv4w"]
+[ext_resource type="Script" uid="uid://bhegfvrkiady8" path="res://scripts/virtual_crouch.gd" id="8_3770h"]
+[ext_resource type="Script" uid="uid://c45sgfhd7uxkt" path="res://scripts/grab_interaction.gd" id="9_cibq4"]
+[ext_resource type="Script" uid="uid://c1mbsmpvihrpv" path="res://scripts/hand_physics.gd" id="9_ecy5y"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5petv"]
+radius = 0.125
+height = 0.5
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_4irtq"]
+radius = 0.125
+height = 0.5
+
+[sub_resource type="SphereMesh" id="SphereMesh_7p0fh"]
+radius = 0.125
+height = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_323tq"]
+render_priority = 2
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(7.508397e-06, 0.95241255, 0.77673376, 0.41568628)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_323tq"]
+radius = 0.05
+height = 0.2
+
+[sub_resource type="SphereMesh" id="SphereMesh_cibq4"]
+radius = 0.025
+height = 0.05
+
+[node name="XRPlayer" type="CharacterBody3D" unique_id=751483929]
+script = ExtResource("1_cibq4")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=128059826]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.125, 0)
+shape = SubResource("CapsuleShape3D_5petv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CollisionShape3D" unique_id=847137960]
+layers = 32
+mesh = SubResource("CapsuleMesh_4irtq")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=983218597]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=1396171939]
+near = 0.001
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="XROrigin3D/XRCamera3D" unique_id=1561811656]
+layers = 32
+mesh = SubResource("SphereMesh_7p0fh")
+
+[node name="XRControllerLeft" type="XRController3D" parent="XROrigin3D" unique_id=207749437]
+tracker = &"left_hand"
+
+[node name="HandMeshLeft" type="MeshInstance3D" parent="XROrigin3D/XRControllerLeft" unique_id=1062563302]
+transform = Transform3D(1, 0, 0, 0, 0.49999997, 0.86602545, 0, -0.86602545, 0.49999997, 0, -0.05, 0.1)
+layers = 32
+material_override = SubResource("StandardMaterial3D_323tq")
+mesh = SubResource("CapsuleMesh_323tq")
+
+[node name="OOB Tracker" type="Node3D" parent="XROrigin3D/XRControllerLeft" unique_id=1563608213]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+
+[node name="XRControllerRight" type="XRController3D" parent="XROrigin3D" unique_id=506674110]
+tracker = &"right_hand"
+
+[node name="HandMeshRight" type="MeshInstance3D" parent="XROrigin3D/XRControllerRight" unique_id=1407337930]
+transform = Transform3D(1, 0, 0, 0, 0.49999997, 0.86602545, 0, -0.86602545, 0.49999997, 0, -0.05, 0.1)
+layers = 32
+material_override = SubResource("StandardMaterial3D_323tq")
+mesh = SubResource("CapsuleMesh_323tq")
+skeleton = NodePath("../../XRControllerLeft")
+
+[node name="HoverSuspension" type="ShapeCast3D" parent="." unique_id=2018791016 node_paths=PackedStringArray("xr_player", "xr_origin", "body_collider")]
+script = ExtResource("2_b6jm1")
+xr_player = NodePath("..")
+xr_origin = NodePath("../XROrigin3D")
+body_collider = NodePath("../CollisionShape3D")
+metadata/_custom_type_script = "uid://bbmi4ucpki7h0"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HoverSuspension" unique_id=1742092874]
+layers = 32
+mesh = SubResource("SphereMesh_cibq4")
+
+[node name="FUNCTIONS" type="Node" parent="." unique_id=1625204421]
+
+[node name="SmoothLocomotion" type="Node" parent="FUNCTIONS" unique_id=669757478 node_paths=PackedStringArray("xr_player", "xr_controller")]
+script = ExtResource("3_b6jm1")
+xr_player = NodePath("../..")
+xr_controller = NodePath("../../XROrigin3D/XRControllerLeft")
+metadata/_custom_type_script = "uid://cgdw3q8njnxp7"
+
+[node name="RoomscaleMovement" type="Node" parent="FUNCTIONS" unique_id=2008020813 node_paths=PackedStringArray("xr_player", "xr_origin", "xr_camera")]
+script = ExtResource("4_5petv")
+xr_player = NodePath("../..")
+xr_origin = NodePath("../../XROrigin3D")
+xr_camera = NodePath("../../XROrigin3D/XRCamera3D")
+metadata/_custom_type_script = "uid://cdsa7a1peskyo"
+
+[node name="RoomscaleCrouch" type="Node" parent="FUNCTIONS" unique_id=867085422 node_paths=PackedStringArray("xr_player", "xr_origin", "xr_camera", "body_collider", "body_mesh", "hover_suspension")]
+script = ExtResource("5_4irtq")
+xr_player = NodePath("../..")
+xr_origin = NodePath("../../XROrigin3D")
+xr_camera = NodePath("../../XROrigin3D/XRCamera3D")
+body_collider = NodePath("../../CollisionShape3D")
+body_mesh = NodePath("../../CollisionShape3D/MeshInstance3D")
+hover_suspension = NodePath("../../HoverSuspension")
+metadata/_custom_type_script = "uid://b87he78fngj3s"
+
+[node name="SmoothRotation" type="Node" parent="FUNCTIONS" unique_id=493711354 node_paths=PackedStringArray("xr_player", "xr_controller")]
+script = ExtResource("6_wrvet")
+xr_player = NodePath("../..")
+xr_controller = NodePath("../../XROrigin3D/XRControllerRight")
+metadata/_custom_type_script = "uid://b8355dsb8i1a4"
+
+[node name="VirtualJump" type="Node" parent="FUNCTIONS" unique_id=1946125032 node_paths=PackedStringArray("xr_player", "xr_controller", "hover_suspension")]
+script = ExtResource("7_mvv4w")
+xr_player = NodePath("../..")
+xr_controller = NodePath("../../XROrigin3D/XRControllerRight")
+hover_suspension = NodePath("../../HoverSuspension")
+metadata/_custom_type_script = "uid://b8f3ue5d7b6cy"
+
+[node name="VirtualCrouch" type="Node" parent="FUNCTIONS" unique_id=2035738389 node_paths=PackedStringArray("xr_origin", "xr_controller", "hover_suspension")]
+script = ExtResource("8_3770h")
+xr_origin = NodePath("../../XROrigin3D")
+xr_controller = NodePath("../../XROrigin3D/XRControllerRight")
+hover_suspension = NodePath("../../HoverSuspension")
+metadata/_custom_type_script = "uid://bhegfvrkiady8"
+
+[node name="GrabInteraction" type="Node" parent="FUNCTIONS" unique_id=2069267907 node_paths=PackedStringArray("xr_origin", "xr_controller_left", "xr_controller_right", "hand_physics_left", "hand_physics_right")]
+script = ExtResource("9_cibq4")
+xr_origin = NodePath("../../XROrigin3D")
+xr_controller_left = NodePath("../../XROrigin3D/XRControllerLeft")
+xr_controller_right = NodePath("../../XROrigin3D/XRControllerRight")
+hand_physics_left = NodePath("../../HandPhysicsLeft")
+hand_physics_right = NodePath("../../HandPhysicsRight")
+metadata/_custom_type_script = "uid://c45sgfhd7uxkt"
+
+[node name="HandPhysicsLeft" type="RigidBody3D" parent="." unique_id=362623974 node_paths=PackedStringArray("xr_player", "xr_origin", "xr_controller")]
+script = ExtResource("9_ecy5y")
+xr_player = NodePath("..")
+xr_origin = NodePath("../XROrigin3D")
+xr_controller = NodePath("../XROrigin3D/XRControllerLeft")
+metadata/_custom_type_script = "uid://c1mbsmpvihrpv"
+
+[node name="HandPhysicsRight" type="RigidBody3D" parent="." unique_id=899216229 node_paths=PackedStringArray("xr_player", "xr_origin", "xr_controller")]
+script = ExtResource("9_ecy5y")
+xr_player = NodePath("..")
+xr_origin = NodePath("../XROrigin3D")
+xr_controller = NodePath("../XROrigin3D/XRControllerRight")
+metadata/_custom_type_script = "uid://c1mbsmpvihrpv"

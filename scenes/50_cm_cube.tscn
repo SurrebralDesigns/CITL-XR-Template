@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://rpmm40fmcvny"]
+
+[ext_resource type="Script" uid="uid://bivnwgxdrxoe1" path="res://scripts/grabbable.gd" id="1_jx6lw"]
+[ext_resource type="Material" uid="uid://ckjj1d3qg3ebv" path="res://materials/prototype_materials/Prototype_Dynamic.tres" id="2_l4sby"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_m2fsw"]
+lightmap_size_hint = Vector2i(9, 13)
+add_uv2 = true
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jx6lw"]
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="50cm Cube" type="RigidBody3D" unique_id=1941004397 groups=["Prop", "Walkable"]]
+collision_layer = 4
+collision_mask = 79
+can_sleep = false
+continuous_cd = true
+contact_monitor = true
+max_contacts_reported = 32
+script = ExtResource("1_jx6lw")
+simulated_mass = 10.0
+
+[node name="CubeMesh" type="MeshInstance3D" parent="." unique_id=1810370050]
+material_override = ExtResource("2_l4sby")
+cast_shadow = 2
+gi_mode = 2
+mesh = SubResource("BoxMesh_m2fsw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1401735628]
+shape = SubResource("BoxShape3D_jx6lw")
