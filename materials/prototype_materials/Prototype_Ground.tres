@@ -1,0 +1,18 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://c0dlxbtxl4e4n"]
+
+[ext_resource type="Texture2D" uid="uid://bfldb3177gdnp" path="res://materials/textures/CITL/Ground/Prototype_Ground_albedo.png" id="1_f7w2v"]
+[ext_resource type="Texture2D" uid="uid://d6xaygr0io4x" path="res://materials/textures/CITL/Ground/Prototype_Ground_normal.png" id="2_uj5cm"]
+[ext_resource type="Texture2D" uid="uid://j2yp3l6o4cnx" path="res://materials/textures/CITL/Ground/Prototype_Ground_orm.png" id="3_1q0vj"]
+
+[resource]
+albedo_color = Color(0.40784314, 0.4, 0.3764706, 1)
+albedo_texture = ExtResource("1_f7w2v")
+roughness = 0.75
+roughness_texture = ExtResource("3_1q0vj")
+roughness_texture_channel = 1
+normal_enabled = true
+normal_scale = -1.0
+normal_texture = ExtResource("2_uj5cm")
+uv1_triplanar = true
+uv1_triplanar_sharpness = 10.0
+uv1_world_triplanar = true
